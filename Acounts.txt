@@ -1,0 +1,2 @@
+superadmin@edumanager.pro || ChangeMe123! || SUPER_ADMIN
+admin@greenwood.edu ChangeMe123! || SCHOOL_ADMIN

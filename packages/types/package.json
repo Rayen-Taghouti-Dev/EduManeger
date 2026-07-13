@@ -1,0 +1,32 @@
+{
+  "name": "@edumanager/types",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@edumanager/eslint-config": "workspace:*",
+    "@edumanager/ts-config": "workspace:*",
+    "eslint": "^9.28.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  }
+}

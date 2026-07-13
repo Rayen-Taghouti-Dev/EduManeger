@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import '@edumanager/ui/globals.css';
+
+@theme inline {
+  --font-sans: var(--font-inter);
+}
+
+/* Keep TanStack Query DevTools out of portfolio screenshots and production UI */
+.tsqd-open-btn-container,
+.tsqd-parent-container {
+  display: none !important;
+}

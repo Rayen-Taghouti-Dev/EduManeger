@@ -1,0 +1,36 @@
+{
+  "name": "edumanager-pro",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Enterprise SaaS platform for private schools",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md,css}\"",
+    "clean": "turbo clean",
+    "db:generate": "prisma generate --schema database/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema database/prisma/schema.prisma",
+    "db:migrate:deploy": "prisma migrate deploy --schema database/prisma/schema.prisma",
+    "db:push": "prisma db push --schema database/prisma/schema.prisma",
+    "db:studio": "prisma studio --schema database/prisma/schema.prisma",
+    "db:validate": "prisma validate --schema database/prisma/schema.prisma",
+    "db:format": "prisma format --schema database/prisma/schema.prisma",
+    "db:seed:auth": "pnpm --filter @edumanager/api exec node ../../database/seed/auth.seed.js",
+    "db:seed:students": "pnpm --filter @edumanager/api exec node ../../database/seed/students.seed.js"
+  },
+  "devDependencies": {
+    "@edumanager/eslint-config": "workspace:*",
+    "@prisma/client": "^6.19.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "prisma": "^6.19.3",
+    "turbo": "^2.5.4"
+  },
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@edumanager/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 3000",
+    "build": "next build --turbopack",
+    "start": "next start --port 3000",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf .next"
+  },
+  "dependencies": {
+    "@edumanager/types": "workspace:*",
+    "@edumanager/ui": "workspace:*",
+    "@hookform/resolvers": "^5.1.1",
+    "@tanstack/react-query": "^5.80.7",
+    "@tanstack/react-query-devtools": "^5.80.7",
+    "lucide-react": "^0.514.0",
+    "next": "15.5.19",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "^7.58.1",
+    "recharts": "^2.15.3",
+    "zod": "^3.25.67",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@edumanager/eslint-config": "workspace:*",
+    "@edumanager/ts-config": "workspace:*",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.10",
+    "@types/node": "^20.19.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.28.0",
+    "eslint-config-next": "15.5.19",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^4.1.10",
+    "typescript": "^5.8.3"
+  }
+}

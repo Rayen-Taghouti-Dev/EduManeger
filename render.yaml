@@ -1,0 +1,41 @@
+# Render Blueprint — EduManager Pro API
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Deploy:
+#   1. Connect this GitHub repo in Render
+#   2. Apply this Blueprint (or create a Web Service manually with Docker)
+#   3. Set secret env vars in the Render dashboard (JWT, DATABASE_URL, etc.)
+
+services:
+  - type: web
+    name: edumanager-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RUN_MIGRATIONS
+        value: "true"
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        sync: false
+      - key: JWT_ACCESS_EXPIRATION
+        value: 15m
+      - key: JWT_REFRESH_EXPIRATION
+        value: 7d
+      - key: AUTH_REFRESH_COOKIE_NAME
+        value: edumanager_refresh_token
+      - key: AUTH_COOKIE_SECURE
+        value: "true"
+      - key: AUTH_COOKIE_SAME_SITE
+        value: none

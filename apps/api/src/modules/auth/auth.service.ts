@@ -225,20 +225,26 @@ export class AuthService {
   }
 
   getRefreshCookieOptions() {
+    const sameSite = this.getCookieSameSite();
+    const secure = sameSite === 'none' ? true : this.getCookieSecure();
+
     return {
       httpOnly: true,
-      sameSite: this.getCookieSameSite(),
-      secure: this.getCookieSecure(),
+      sameSite,
+      secure,
       path: '/api/v1/auth',
       maxAge: this.parseDurationToMs(this.getRefreshTokenExpiration()),
     } as const;
   }
 
   clearRefreshCookieOptions() {
+    const sameSite = this.getCookieSameSite();
+    const secure = sameSite === 'none' ? true : this.getCookieSecure();
+
     return {
       httpOnly: true,
-      sameSite: this.getCookieSameSite(),
-      secure: this.getCookieSecure(),
+      sameSite,
+      secure,
       path: '/api/v1/auth',
     } as const;
   }
@@ -470,18 +476,31 @@ export class AuthService {
     return this.configService.get<string>('JWT_REFRESH_EXPIRATION') ?? '7d';
   }
 
+  private isProduction() {
+    return (this.configService.get<string>('NODE_ENV') ?? process.env.NODE_ENV) === 'production';
+  }
+
   private getCookieSecure() {
-    return (this.configService.get<string>('AUTH_COOKIE_SECURE') ?? 'false').toLowerCase() === 'true';
+    const configured = this.configService.get<string>('AUTH_COOKIE_SECURE');
+    if (configured !== undefined && configured !== '') {
+      return configured.toLowerCase() === 'true';
+    }
+
+    // Cross-site cookies (Vercel → Render) require Secure in production.
+    return this.isProduction();
   }
 
   private getCookieSameSite(): 'lax' | 'strict' | 'none' {
-    const value = (this.configService.get<string>('AUTH_COOKIE_SAME_SITE') ?? 'lax').toLowerCase();
-
-    if (value === 'strict' || value === 'none') {
-      return value;
+    const configured = this.configService.get<string>('AUTH_COOKIE_SAME_SITE');
+    if (configured !== undefined && configured !== '') {
+      const value = configured.toLowerCase();
+      if (value === 'strict' || value === 'none' || value === 'lax') {
+        return value;
+      }
     }
 
-    return 'lax';
+    // Cross-origin SPA (Vercel) + API (Render) needs SameSite=None.
+    return this.isProduction() ? 'none' : 'lax';
   }
 
   private parseDurationToMs(value: string) {

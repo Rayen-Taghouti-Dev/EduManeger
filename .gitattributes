@@ -1,3 +1,8 @@
 # Force LF for shell scripts used in Linux containers
 *.sh text eol=lf
 apps/api/docker-entrypoint.sh text eol=lf
+
+# Prisma migrations must be UTF-8 (never UTF-16). UTF-16 embeds NUL bytes
+# that make PostgreSQL fail with: "string contains embedded null".
+database/prisma/migrations/**/*.sql text eol=lf working-tree-encoding=UTF-8
+*.sql text eol=lf

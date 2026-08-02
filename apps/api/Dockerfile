@@ -1,6 +1,16 @@
 # EduManager Pro API — production image for Render (Docker)
-# Build context MUST be the monorepo root:
-#   docker build -f apps/api/Dockerfile -t edumanager-api .
+#
+# CRITICAL — Docker build context MUST be the monorepo repository root.
+#   Correct local build:
+#     docker build -f apps/api/Dockerfile -t edumanager-api .
+#
+# CRITICAL — Render dashboard (manual Web Service):
+#   Root Directory:            (leave EMPTY — do NOT set apps/api)
+#   Docker Build Context:      .
+#   Dockerfile Path:           ./apps/api/Dockerfile
+#
+# If Root Directory is set to apps/api, Render scopes the context to apps/api/
+# and every COPY of package.json / packages/* / database/* / apps/api/* will fail.
 #
 # Runtime:
 #   - listens on 0.0.0.0:$PORT (Render injects PORT)

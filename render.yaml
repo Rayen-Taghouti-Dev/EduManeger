@@ -5,6 +5,19 @@
 #   1. Connect this GitHub repo in Render
 #   2. Apply this Blueprint (or create a Web Service manually with Docker)
 #   3. Set secret env vars in the Render dashboard (JWT, DATABASE_URL, etc.)
+#
+# MANUAL DASHBOARD SETTINGS (must match this Blueprint):
+#   Root Directory:                 <EMPTY / blank>
+#   Language / Runtime:             Docker
+#   Docker Build Context Directory: .
+#   Dockerfile Path:                ./apps/api/Dockerfile
+#   Health Check Path:              /api/v1/health
+#
+# DO NOT set Root Directory to apps/api.
+# This monorepo Dockerfile COPYs files from the repo root (package.json,
+# pnpm-workspace.yaml, packages/*, database/*). If Root Directory is apps/api,
+# Render prefixes the build context to apps/api/ and those COPY paths fail
+# (e.g. "/apps/api/docker-entrypoint.sh": not found).
 
 services:
   - type: web
@@ -12,6 +25,7 @@ services:
     runtime: docker
     plan: free
     region: oregon
+    # No rootDir — build uses the repository root as Docker context.
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
     healthCheckPath: /api/v1/health

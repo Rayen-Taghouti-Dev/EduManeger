@@ -7,6 +7,7 @@ import { UserPlus } from 'lucide-react';
 import { StudentDialogShell } from '@/components/students/student-dialog-shell';
 import { StudentForm } from '@/components/students/student-form';
 import { useCreateStudentMutation } from '@/lib/students/queries';
+import { useI18n } from '@/providers/locale-provider';
 import { useToast } from '@/providers/toast-provider';
 
 interface CreateStudentDialogProps {
@@ -48,6 +49,7 @@ function sanitizePayload(values: StudentFormValues): StudentFormValues {
 
 export function CreateStudentDialog({ open, onOpenChange }: CreateStudentDialogProps) {
   const toast = useToast();
+  const { t } = useI18n();
   const createMutation = useCreateStudentMutation();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -56,10 +58,10 @@ export function CreateStudentDialog({ open, onOpenChange }: CreateStudentDialogP
 
     try {
       await createMutation.mutateAsync(sanitizePayload(values));
-      toast.success('Élève créé avec succès.');
+      toast.success(t('students.createSuccess'));
       onOpenChange(false);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Création impossible';
+      const message = error instanceof Error ? error.message : t('students.createError');
       setErrorMessage(message);
       toast.error(message);
     }
@@ -70,11 +72,11 @@ export function CreateStudentDialog({ open, onOpenChange }: CreateStudentDialogP
       open={open}
       onOpenChange={onOpenChange}
       icon={UserPlus}
-      title="Nouvel élève"
-      description="Complétez le profil, l'affectation scolaire et les contacts familiaux."
+      title={t('students.createTitle')}
+      description={t('students.createDescription')}
       descriptionId="create-student-description"
       formId={FORM_ID}
-      submitLabel="Créer l'élève"
+      submitLabel={t('students.createSubmit')}
       isSubmitting={createMutation.isPending}
       onCancel={() => onOpenChange(false)}
       errorMessage={errorMessage}
@@ -82,7 +84,7 @@ export function CreateStudentDialog({ open, onOpenChange }: CreateStudentDialogP
       <StudentForm
         formId={FORM_ID}
         showActions={false}
-        submitLabel="Créer l'élève"
+        submitLabel={t('students.createSubmit')}
         isSubmitting={createMutation.isPending}
         onSubmit={handleSubmit}
       />

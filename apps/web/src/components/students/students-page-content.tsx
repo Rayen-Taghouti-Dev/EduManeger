@@ -9,6 +9,7 @@ import { EditStudentDialog } from '@/components/students/edit-student-dialog';
 import { StudentsTable } from '@/components/students/students-table';
 import { StudentsToolbar } from '@/components/students/students-toolbar';
 import { useStudentQuery, useStudentsQuery } from '@/lib/students/queries';
+import { useI18n } from '@/providers/locale-provider';
 import {
   Alert,
   AlertDescription,
@@ -26,6 +27,7 @@ const DEFAULT_QUERY: StudentQuery = {
 };
 
 export function StudentsPageContent() {
+  const { t } = useI18n();
   const [query, setQuery] = useState<StudentQuery>(DEFAULT_QUERY);
   const [createOpen, setCreateOpen] = useState(false);
   const [editStudent, setEditStudent] = useState<StudentListItem | null>(null);
@@ -39,8 +41,8 @@ export function StudentsPageContent() {
       return null;
     }
 
-    return `${studentsQuery.data.total} élève${studentsQuery.data.total > 1 ? 's' : ''}`;
-  }, [studentsQuery.data]);
+    return t('students.count', { count: studentsQuery.data.total });
+  }, [studentsQuery.data, t]);
 
   return (
     <div className="mx-auto w-full max-w-[1600px] space-y-6">
@@ -60,15 +62,15 @@ export function StudentsPageContent() {
           <AlertDescription>
             {studentsQuery.error instanceof Error
               ? studentsQuery.error.message
-              : 'Impossible de charger les élèves.'}
+              : t('students.loadError')}
           </AlertDescription>
         </Alert>
       ) : studentsQuery.data && studentsQuery.data.data.length === 0 ? (
         <EmptyState
-          title="Aucun élève trouvé"
-          description="Ajustez vos filtres ou ajoutez le premier élève de l'établissement."
+          title={t('students.emptyTitle')}
+          description={t('students.emptyDescription')}
           action={
-            <Button onClick={() => setCreateOpen(true)}>Ajouter le premier élève</Button>
+            <Button onClick={() => setCreateOpen(true)}>{t('students.addFirst')}</Button>
           }
         />
       ) : (

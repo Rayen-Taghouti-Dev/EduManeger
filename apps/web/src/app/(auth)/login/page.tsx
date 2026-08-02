@@ -2,26 +2,33 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { AuthLayout } from '@/components/layouts/auth-layout';
 import { useAuth } from '@/providers/auth-provider';
+import { useI18n } from '@/providers/locale-provider';
 import { Button, Input, Label } from '@edumanager/ui';
-
-const loginSchema = z.object({
-  email: z.string().email('Adresse e-mail invalide'),
-  password: z.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères'),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
   const { status, login, pendingSelection, selectMembership, clearPendingSelection } = useAuth();
+  const { t } = useI18n();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedUserRoleId, setSelectedUserRoleId] = useState<string | null>(null);
+
+  const loginSchema = useMemo(
+    () =>
+      z.object({
+        email: z.string().email(t('auth.invalidEmail')),
+        password: z.string().min(8, t('auth.passwordMin')),
+      }),
+    [t],
+  );
+
+  type LoginFormValues = z.infer<typeof loginSchema>;
+
   const {
     register,
     handleSubmit,
@@ -50,13 +57,13 @@ export default function LoginPage() {
         router.replace('/dashboard');
       }
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Connexion impossible');
+      setErrorMessage(error instanceof Error ? error.message : t('auth.loginFailed'));
     }
   });
 
   const handleMembershipSelection = async () => {
     if (!selectedUserRoleId) {
-      setErrorMessage('Sélectionnez un établissement pour continuer.');
+      setErrorMessage(t('auth.selectSchoolError'));
       return;
     }
 
@@ -68,7 +75,7 @@ export default function LoginPage() {
         router.replace('/dashboard');
       }
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Sélection impossible');
+      setErrorMessage(error instanceof Error ? error.message : t('auth.selectFailed'));
     }
   };
 
@@ -78,10 +85,8 @@ export default function LoginPage() {
         {pendingSelection ? (
           <div className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-base font-semibold">Choisissez votre établissement</h2>
-              <p className="text-muted-foreground text-sm">
-                Plusieurs accès sont disponibles pour ce compte.
-              </p>
+              <h2 className="text-base font-semibold">{t('auth.chooseSchool')}</h2>
+              <p className="text-muted-foreground text-sm">{t('auth.chooseSchoolHint')}</p>
             </div>
             <div className="space-y-2">
               {pendingSelection.memberships.map((membership) => (
@@ -101,28 +106,33 @@ export default function LoginPage() {
               ))}
             </div>
             <Button className="w-full" onClick={handleMembershipSelection}>
-              Continuer
+              {t('auth.continue')}
             </Button>
           </div>
         ) : (
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" placeholder="admin@ecole.edu" {...register('email')} />
+              <Label htmlFor="email">{t('auth.email')}</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder={t('auth.emailPlaceholder')}
+                {...register('email')}
+              />
               {errors.email && <p className="text-danger text-xs">{errors.email.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">{t('auth.password')}</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="Votre mot de passe"
+                placeholder={t('auth.passwordPlaceholder')}
                 {...register('password')}
               />
               {errors.password && <p className="text-danger text-xs">{errors.password.message}</p>}
             </div>
             <Button className="w-full" disabled={isSubmitting || status === 'loading'} type="submit">
-              {isSubmitting ? 'Connexion...' : 'Se connecter'}
+              {isSubmitting ? t('auth.signingIn') : t('auth.signIn')}
             </Button>
           </form>
         )}

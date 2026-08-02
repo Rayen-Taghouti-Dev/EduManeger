@@ -10,6 +10,7 @@ import {
 } from '@/lib/students/constants';
 import { useClassroomsQuery } from '@/lib/students/queries';
 import { useAuth } from '@/providers/auth-provider';
+import { useI18n } from '@/providers/locale-provider';
 import {
   Button,
   Input,
@@ -28,6 +29,7 @@ interface StudentsToolbarProps {
 
 export function StudentsToolbar({ query, onQueryChange, onCreateClick }: StudentsToolbarProps) {
   const { currentUser } = useAuth();
+  const { t } = useI18n();
   const classroomsQuery = useClassroomsQuery();
   const canManage = canManageStudents(currentUser?.role);
 
@@ -46,27 +48,25 @@ export function StudentsToolbar({ query, onQueryChange, onCreateClick }: Student
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Élèves</h1>
-          <p className="text-muted-foreground text-sm">
-            Gérez les inscriptions, profils et affectations de classe.
-          </p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">{t('students.title')}</h1>
+          <p className="text-muted-foreground text-sm">{t('students.subtitle')}</p>
         </div>
         {canManage ? (
-          <Button onClick={onCreateClick}>
+          <Button className="h-10 w-full shrink-0 sm:w-auto" onClick={onCreateClick}>
             <Plus className="h-4 w-4" />
-            Ajouter un élève
+            {t('students.add')}
           </Button>
         ) : null}
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto] xl:grid-cols-[minmax(0,1fr)_180px_160px_160px_auto]">
-        <div className="relative">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_180px_160px_160px_auto]">
+        <div className="relative sm:col-span-2 xl:col-span-1">
           <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
-            className="pl-9"
-            placeholder="Rechercher par numéro, prénom ou nom..."
+            className="h-10 pl-9"
+            placeholder={t('students.searchPlaceholder')}
             value={query.search ?? ''}
             onChange={(event) => updateQuery({ search: event.target.value })}
           />
@@ -78,11 +78,11 @@ export function StudentsToolbar({ query, onQueryChange, onCreateClick }: Student
             updateQuery({ classroomId: value === 'all' ? undefined : value })
           }
         >
-          <SelectTrigger className="w-full xl:w-[180px]">
-            <SelectValue placeholder="Classe" />
+          <SelectTrigger className="h-10 w-full">
+            <SelectValue placeholder={t('students.classroom')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Toutes les classes</SelectItem>
+            <SelectItem value="all">{t('students.allClassrooms')}</SelectItem>
             {(classroomsQuery.data?.data ?? []).map((classroom) => (
               <SelectItem key={classroom.id} value={classroom.id}>
                 {classroom.name}
@@ -99,14 +99,14 @@ export function StudentsToolbar({ query, onQueryChange, onCreateClick }: Student
             })
           }
         >
-          <SelectTrigger className="w-full xl:w-[160px]">
-            <SelectValue placeholder="Statut" />
+          <SelectTrigger className="h-10 w-full">
+            <SelectValue placeholder={t('students.status')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tous les statuts</SelectItem>
+            <SelectItem value="all">{t('students.allStatuses')}</SelectItem>
             {STUDENT_STATUS_OPTIONS.map((option) => (
               <SelectItem key={option.value} value={option.value}>
-                {option.label}
+                {t(option.labelKey)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -120,27 +120,27 @@ export function StudentsToolbar({ query, onQueryChange, onCreateClick }: Student
             })
           }
         >
-          <SelectTrigger className="w-full xl:w-[160px]">
-            <SelectValue placeholder="Genre" />
+          <SelectTrigger className="h-10 w-full">
+            <SelectValue placeholder={t('students.gender')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tous les genres</SelectItem>
+            <SelectItem value="all">{t('students.allGenders')}</SelectItem>
             {GENDER_OPTIONS.map((option) => (
               <SelectItem key={option.value} value={option.value}>
-                {option.label}
+                {t(option.labelKey)}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
 
-        <div className="flex flex-wrap gap-2 lg:col-span-full xl:col-span-1 xl:justify-end">
+        <div className="flex flex-wrap gap-2 sm:col-span-2 xl:col-span-1 xl:justify-end">
           <Button
             variant={query.sortBy === 'name' ? 'default' : 'outline'}
-            size="sm"
+            className="h-10"
             onClick={() => toggleSort('name')}
           >
             <SlidersHorizontal className="h-4 w-4" />
-            Nom
+            {t('students.sortName')}
             {query.sortBy === 'name' ? (
               query.sortOrder === 'asc' ? (
                 <ArrowUpAZ className="h-4 w-4" />
@@ -151,17 +151,17 @@ export function StudentsToolbar({ query, onQueryChange, onCreateClick }: Student
           </Button>
           <Button
             variant={query.sortBy === 'studentNumber' ? 'default' : 'outline'}
-            size="sm"
+            className="h-10"
             onClick={() => toggleSort('studentNumber')}
           >
-            N°
+            {t('students.sortNumber')}
           </Button>
           <Button
             variant={query.sortBy === 'enrollmentDate' ? 'default' : 'outline'}
-            size="sm"
+            className="h-10"
             onClick={() => toggleSort('enrollmentDate')}
           >
-            Inscription
+            {t('students.sortEnrollment')}
           </Button>
         </div>
       </div>

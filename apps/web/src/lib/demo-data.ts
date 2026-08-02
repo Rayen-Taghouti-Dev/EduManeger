@@ -1,197 +1,209 @@
-export const kpiData = [
+export const kpiMeta = [
   {
-    title: 'Total élèves',
+    id: 'students',
     value: '1 245',
-    change: '+12,5 %',
+    change: '+12.5%',
     trend: 'up' as const,
-    period: 'vs mois dernier',
     icon: 'students' as const,
     accent: 'primary' as const,
+    titleKey: 'dashboard.kpiStudents' as const,
+    periodKey: 'dashboard.vsLastMonth' as const,
   },
   {
-    title: 'Enseignants actifs',
+    id: 'teachers',
     value: '85',
-    change: '+3,2 %',
+    change: '+3.2%',
     trend: 'up' as const,
-    period: 'vs mois dernier',
     icon: 'teachers' as const,
     accent: 'secondary' as const,
+    titleKey: 'dashboard.kpiTeachers' as const,
+    periodKey: 'dashboard.vsLastMonth' as const,
   },
   {
-    title: 'Classes',
+    id: 'classes',
     value: '42',
     change: '+2',
     trend: 'up' as const,
-    period: 'nouveau ce trimestre',
     icon: 'classes' as const,
     accent: 'success' as const,
+    titleKey: 'dashboard.kpiClasses' as const,
+    periodKey: 'dashboard.newThisTerm' as const,
   },
   {
-    title: 'Taux de présence',
-    value: '97 %',
-    change: '+1,8 %',
+    id: 'attendance',
+    value: '97%',
+    change: '+1.8%',
     trend: 'up' as const,
-    period: 'vs semaine dernière',
     icon: 'attendance' as const,
     accent: 'warning' as const,
+    titleKey: 'dashboard.kpiAttendance' as const,
+    periodKey: 'dashboard.vsLastWeek' as const,
   },
 ];
 
-export const enrollmentData = [
-  { month: 'Sep', students: 1080, newEnrollments: 45 },
-  { month: 'Oct', students: 1105, newEnrollments: 38 },
-  { month: 'Nov', students: 1120, newEnrollments: 28 },
-  { month: 'Déc', students: 1135, newEnrollments: 22 },
-  { month: 'Jan', students: 1180, newEnrollments: 52 },
-  { month: 'Fév', students: 1210, newEnrollments: 35 },
-  { month: 'Mar', students: 1245, newEnrollments: 42 },
+export const enrollmentSeries = [
+  { monthKey: 'dashboard.monthSep' as const, students: 1080, newEnrollments: 45 },
+  { monthKey: 'dashboard.monthOct' as const, students: 1105, newEnrollments: 38 },
+  { monthKey: 'dashboard.monthNov' as const, students: 1120, newEnrollments: 28 },
+  { monthKey: 'dashboard.monthDec' as const, students: 1135, newEnrollments: 22 },
+  { monthKey: 'dashboard.monthJan' as const, students: 1180, newEnrollments: 52 },
+  { monthKey: 'dashboard.monthFeb' as const, students: 1210, newEnrollments: 35 },
+  { monthKey: 'dashboard.monthMar' as const, students: 1245, newEnrollments: 42 },
 ];
 
-export const revenueData = [
-  { month: 'Sep', revenue: 185000, expenses: 142000 },
-  { month: 'Oct', revenue: 192000, expenses: 145000 },
-  { month: 'Nov', revenue: 188000, expenses: 148000 },
-  { month: 'Déc', revenue: 210000, expenses: 152000 },
-  { month: 'Jan', revenue: 225000, expenses: 155000 },
-  { month: 'Fév', revenue: 218000, expenses: 158000 },
-  { month: 'Mar', revenue: 235000, expenses: 160000 },
+export const revenueSeries = [
+  { monthKey: 'dashboard.monthSep' as const, revenue: 185000, expenses: 142000 },
+  { monthKey: 'dashboard.monthOct' as const, revenue: 192000, expenses: 145000 },
+  { monthKey: 'dashboard.monthNov' as const, revenue: 188000, expenses: 148000 },
+  { monthKey: 'dashboard.monthDec' as const, revenue: 210000, expenses: 152000 },
+  { monthKey: 'dashboard.monthJan' as const, revenue: 225000, expenses: 155000 },
+  { monthKey: 'dashboard.monthFeb' as const, revenue: 218000, expenses: 158000 },
+  { monthKey: 'dashboard.monthMar' as const, revenue: 235000, expenses: 160000 },
 ];
 
-export const attendanceData = [
-  { day: 'Lun', present: 1180, absent: 65 },
-  { day: 'Mar', present: 1195, absent: 50 },
-  { day: 'Mer', present: 1205, absent: 40 },
-  { day: 'Jeu', present: 1190, absent: 55 },
-  { day: 'Ven', present: 1210, absent: 35 },
+export const attendanceSeries = [
+  { dayKey: 'dashboard.dayMon' as const, present: 1180, absent: 65 },
+  { dayKey: 'dashboard.dayTue' as const, present: 1195, absent: 50 },
+  { dayKey: 'dashboard.dayWed' as const, present: 1205, absent: 40 },
+  { dayKey: 'dashboard.dayThu' as const, present: 1190, absent: 55 },
+  { dayKey: 'dashboard.dayFri' as const, present: 1210, absent: 35 },
 ];
 
-export const performanceData = [
-  { subject: 'Mathématiques', score: 88 },
-  { subject: 'Sciences', score: 92 },
-  { subject: 'Anglais', score: 85 },
-  { subject: 'Histoire', score: 79 },
-  { subject: 'Arts', score: 94 },
-  { subject: 'EPS', score: 91 },
+export const performanceSeries = [
+  { subjectKey: 'dashboard.subjectMath' as const, score: 88 },
+  { subjectKey: 'dashboard.subjectScience' as const, score: 92 },
+  { subjectKey: 'dashboard.subjectEnglish' as const, score: 85 },
+  { subjectKey: 'dashboard.subjectHistory' as const, score: 79 },
+  { subjectKey: 'dashboard.subjectArts' as const, score: 94 },
+  { subjectKey: 'dashboard.subjectPe' as const, score: 91 },
 ];
 
-export const activityFeed = [
+export const activityMeta = [
   {
     id: '1',
     type: 'enrollment' as const,
-    title: 'Nouvel élève inscrit',
-    description: 'Emma Richardson a rejoint la 10e-A',
-    user: 'Sarah Chen',
-    initials: 'SC',
-    time: 'il y a 2 min',
     status: 'success' as const,
+    initials: 'SC',
+    titleKey: 'dashboard.activity1Title' as const,
+    descKey: 'dashboard.activity1Desc' as const,
+    userKey: 'dashboard.activity1User' as const,
+    timeKey: 'dashboard.activity1Time' as const,
   },
   {
     id: '2',
     type: 'grade' as const,
-    title: 'Notes soumises',
-    description: 'Résultats de mi-trimestre en mathématiques pour la 11e',
-    user: 'James Wilson',
-    initials: 'JW',
-    time: 'il y a 15 min',
     status: 'info' as const,
+    initials: 'JW',
+    titleKey: 'dashboard.activity2Title' as const,
+    descKey: 'dashboard.activity2Desc' as const,
+    userKey: 'dashboard.activity2User' as const,
+    timeKey: 'dashboard.activity2Time' as const,
   },
   {
     id: '3',
     type: 'payment' as const,
-    title: 'Paiement reçu',
-    description: '2 450 $ de frais de scolarité de la famille Martinez',
-    user: 'Équipe finance',
-    initials: 'EF',
-    time: 'il y a 1 h',
     status: 'success' as const,
+    initials: 'EF',
+    titleKey: 'dashboard.activity3Title' as const,
+    descKey: 'dashboard.activity3Desc' as const,
+    userKey: 'dashboard.activity3User' as const,
+    timeKey: 'dashboard.activity3Time' as const,
   },
   {
     id: '4',
     type: 'teacher' as const,
-    title: 'Nouvel enseignant ajouté',
-    description: 'Dr Lisa Park a rejoint le département des sciences',
-    user: 'Admin RH',
-    initials: 'AR',
-    time: 'il y a 3 h',
     status: 'info' as const,
+    initials: 'AR',
+    titleKey: 'dashboard.activity4Title' as const,
+    descKey: 'dashboard.activity4Desc' as const,
+    userKey: 'dashboard.activity4User' as const,
+    timeKey: 'dashboard.activity4Time' as const,
   },
   {
     id: '5',
     type: 'attendance' as const,
-    title: 'Alerte de présence',
-    description: 'La 8e-B est en dessous du seuil de 90 % aujourd\'hui',
-    user: 'Système',
-    initials: 'SY',
-    time: 'il y a 5 h',
     status: 'warning' as const,
+    initials: 'SY',
+    titleKey: 'dashboard.activity5Title' as const,
+    descKey: 'dashboard.activity5Desc' as const,
+    userKey: 'dashboard.activity5User' as const,
+    timeKey: 'dashboard.activity5Time' as const,
   },
 ];
 
-export const notifications = [
+export const notificationMeta = [
   {
     id: '1',
-    title: 'Rappel de paiement',
-    description: '12 familles ont des frais de scolarité en retard',
-    time: 'il y a 10 min',
     unread: true,
+    titleKey: 'dashboard.notif1Title' as const,
+    descKey: 'dashboard.notif1Desc' as const,
+    timeKey: 'dashboard.notif1Time' as const,
   },
   {
     id: '2',
-    title: 'Rapport disponible',
-    description: 'Le rapport de performance académique du T1 est disponible',
-    time: 'il y a 1 h',
     unread: true,
+    titleKey: 'dashboard.notif2Title' as const,
+    descKey: 'dashboard.notif2Desc' as const,
+    timeKey: 'dashboard.notif2Time' as const,
   },
   {
     id: '3',
-    title: 'Mise à jour du planning',
-    description: 'Salle 204 indisponible demain de 14h à 16h',
-    time: 'il y a 3 h',
     unread: false,
+    titleKey: 'dashboard.notif3Title' as const,
+    descKey: 'dashboard.notif3Desc' as const,
+    timeKey: 'dashboard.notif3Time' as const,
   },
 ];
 
-export const upcomingEvents = [
+export const eventMeta = [
   {
     id: '1',
-    title: 'Rencontres parents-enseignants',
-    date: '28 Mar',
-    time: '9h00',
     type: 'meeting' as const,
-    location: 'Grande salle',
+    titleKey: 'dashboard.event1Title' as const,
+    dateKey: 'dashboard.event1Date' as const,
+    timeKey: 'dashboard.event1Time' as const,
+    locationKey: 'dashboard.event1Location' as const,
   },
   {
     id: '2',
-    title: 'Foire aux sciences de printemps',
-    date: '3 Avr',
-    time: '14h00',
     type: 'event' as const,
-    location: 'Gymnase',
+    titleKey: 'dashboard.event2Title' as const,
+    dateKey: 'dashboard.event2Date' as const,
+    timeKey: 'dashboard.event2Time' as const,
+    locationKey: 'dashboard.event2Location' as const,
   },
   {
     id: '3',
-    title: 'Journée de formation du personnel',
-    date: '10 Avr',
-    time: 'Toute la journée',
     type: 'admin' as const,
-    location: 'Campus entier',
+    titleKey: 'dashboard.event3Title' as const,
+    dateKey: 'dashboard.event3Date' as const,
+    timeKey: 'dashboard.event3Time' as const,
+    locationKey: 'dashboard.event3Location' as const,
   },
   {
     id: '4',
-    title: 'Planification de la remise des diplômes',
-    date: '15 Avr',
-    time: '11h00',
     type: 'meeting' as const,
-    location: 'Salle de conférence B',
+    titleKey: 'dashboard.event4Title' as const,
+    dateKey: 'dashboard.event4Date' as const,
+    timeKey: 'dashboard.event4Time' as const,
+    locationKey: 'dashboard.event4Location' as const,
   },
 ];
 
 export const schoolOverview = {
   name: 'Académie Greenwood',
-  term: 'Trimestre de printemps 2026',
   status: 'active' as const,
-  statusLabel: 'Tous les systèmes opérationnels',
   studentsEnrolled: 1245,
   capacity: 1400,
   daysRemaining: 42,
 };
+
+/** @deprecated Use keyed series above */
+export const kpiData = kpiMeta;
+export const enrollmentData = enrollmentSeries;
+export const revenueData = revenueSeries;
+export const attendanceData = attendanceSeries;
+export const performanceData = performanceSeries;
+export const activityFeed = activityMeta;
+export const notifications = notificationMeta;
+export const upcomingEvents = eventMeta;

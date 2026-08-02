@@ -37,7 +37,7 @@ export function Pagination({
     <nav
       role="navigation"
       aria-label="Pagination"
-      className={cn('mx-auto flex w-full justify-center', className)}
+      className={cn('mx-auto flex w-full max-w-full justify-center overflow-x-auto px-1', className)}
       {...props}
     >
       <ul className="flex flex-row items-center gap-1">

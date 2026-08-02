@@ -26,13 +26,14 @@ import {
 } from '@/components/students/student-profile-sections';
 import { StudentStatusBadge } from '@/components/students/student-status-badge';
 import {
-  GENDER_LABELS,
-  PARENT_RELATIONSHIP_LABELS,
+  GENDER_KEYS,
+  PARENT_RELATIONSHIP_KEYS,
   canManageStudents,
   formatDate,
   getInitials,
 } from '@/lib/students/constants';
 import { useAuth } from '@/providers/auth-provider';
+import { useI18n } from '@/providers/locale-provider';
 import {
   Alert,
   AlertDescription,
@@ -59,6 +60,7 @@ export function StudentProfileView({
 }: StudentProfileViewProps) {
   const router = useRouter();
   const { currentUser } = useAuth();
+  const { t, dateLocale } = useI18n();
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const canManage = canManageStudents(currentUser?.role);
@@ -146,7 +148,7 @@ export function StudentProfileView({
           </div>
           <div className="bg-background-subtle/70 rounded-lg px-4 py-3">
             <p className="text-muted-foreground text-xs uppercase tracking-wide">Inscription</p>
-            <p className="mt-1 text-sm font-semibold">{formatDate(student.enrollmentDate)}</p>
+            <p className="mt-1 text-sm font-semibold">{formatDate(student.enrollmentDate, dateLocale)}</p>
           </div>
           <div className="bg-background-subtle/70 rounded-lg px-4 py-3">
             <p className="text-muted-foreground text-xs uppercase tracking-wide">Parents</p>
@@ -163,9 +165,9 @@ export function StudentProfileView({
         >
           <StudentInfoRow
             label="Genre"
-            value={student.gender ? GENDER_LABELS[student.gender] : '—'}
+            value={student.gender ? t(GENDER_KEYS[student.gender]) : '—'}
           />
-          <StudentInfoRow label="Date de naissance" value={formatDate(student.dateOfBirth)} />
+          <StudentInfoRow label="Date de naissance" value={formatDate(student.dateOfBirth, dateLocale)} />
           <StudentInfoRow
             label="E-mail"
             value={
@@ -220,7 +222,7 @@ export function StudentProfileView({
             value={
               <span className="inline-flex items-center gap-2">
                 <Calendar className="text-muted-foreground h-4 w-4" />
-                {formatDate(student.enrollmentDate)}
+                {formatDate(student.enrollmentDate, dateLocale)}
               </span>
             }
           />
@@ -243,7 +245,9 @@ export function StudentProfileView({
                   <div>
                     <p className="font-medium">{parent.fullName}</p>
                     <p className="text-muted-foreground text-sm">
-                      {PARENT_RELATIONSHIP_LABELS[parent.relationship]}
+                      {PARENT_RELATIONSHIP_KEYS[parent.relationship]
+                        ? t(PARENT_RELATIONSHIP_KEYS[parent.relationship])
+                        : parent.relationship}
                     </p>
                   </div>
                   {parent.isPrimary ? <Badge variant="outline">Principal</Badge> : null}
@@ -273,14 +277,14 @@ export function StudentProfileView({
         <div className="grid gap-4 py-2 sm:grid-cols-2">
           <div className="bg-background-subtle/50 rounded-lg border p-4">
             <p className="text-muted-foreground text-xs uppercase tracking-wide">Créé</p>
-            <p className="mt-2 text-sm font-semibold">{formatDate(student.audit.createdAt)}</p>
+            <p className="mt-2 text-sm font-semibold">{formatDate(student.audit.createdAt, dateLocale)}</p>
             <p className="text-muted-foreground mt-1 text-sm">
               {student.audit.createdBy?.fullName ?? 'Utilisateur inconnu'}
             </p>
           </div>
           <div className="bg-background-subtle/50 rounded-lg border p-4">
             <p className="text-muted-foreground text-xs uppercase tracking-wide">Dernière modification</p>
-            <p className="mt-2 text-sm font-semibold">{formatDate(student.audit.updatedAt)}</p>
+            <p className="mt-2 text-sm font-semibold">{formatDate(student.audit.updatedAt, dateLocale)}</p>
             <p className="text-muted-foreground mt-1 text-sm">
               {student.audit.updatedBy?.fullName ?? 'Utilisateur inconnu'}
             </p>

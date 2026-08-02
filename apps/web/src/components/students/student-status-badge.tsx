@@ -1,7 +1,10 @@
+'use client';
+
 import type { StudentStatus } from '@edumanager/types';
 import { Badge } from '@edumanager/ui';
 
-import { STUDENT_STATUS_LABELS } from '@/lib/students/constants';
+import { STUDENT_STATUS_KEYS } from '@/lib/students/constants';
+import { useI18n } from '@/providers/locale-provider';
 
 const STATUS_VARIANTS: Record<
   StudentStatus,
@@ -15,9 +18,11 @@ const STATUS_VARIANTS: Record<
 };
 
 export function StudentStatusBadge({ status }: { status: StudentStatus }) {
+  const { t } = useI18n();
+
   return (
-    <Badge variant={STATUS_VARIANTS[status]} size="default" className="min-w-[5.5rem]">
-      {STUDENT_STATUS_LABELS[status]}
+    <Badge variant={STATUS_VARIANTS[status]} size="default" className="min-w-0">
+      {t(STUDENT_STATUS_KEYS[status])}
     </Badge>
   );
 }

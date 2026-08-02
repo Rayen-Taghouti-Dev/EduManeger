@@ -11,7 +11,8 @@ import {
   YAxis,
 } from 'recharts';
 
-import { revenueData } from '@/lib/demo-data';
+import { revenueSeries } from '@/lib/demo-data';
+import { useI18n } from '@/providers/locale-provider';
 
 const tooltipStyle = {
   background: 'var(--surface-elevated)',
@@ -22,10 +23,17 @@ const tooltipStyle = {
 };
 
 export function RevenueChart() {
+  const { t } = useI18n();
+  const data = revenueSeries.map((row) => ({
+    month: t(row.monthKey),
+    revenue: row.revenue,
+    expenses: row.expenses,
+  }));
+
   return (
     <div className="chart-container-sm">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={revenueData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }} barGap={4}>
+        <BarChart data={data} margin={{ top: 4, right: 4, left: -16, bottom: 0 }} barGap={4}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
           <XAxis
             dataKey="month"
@@ -50,8 +58,21 @@ export function RevenueChart() {
             iconSize={8}
             wrapperStyle={{ fontSize: '11px', paddingTop: '8px' }}
           />
-        <Bar dataKey="revenue" fill="var(--primary)" radius={[4, 4, 0, 0]} name="Revenus" maxBarSize={24} />
-        <Bar dataKey="expenses" fill="var(--secondary)" radius={[4, 4, 0, 0]} name="Dépenses" maxBarSize={24} opacity={0.7} />
+          <Bar
+            dataKey="revenue"
+            fill="var(--primary)"
+            radius={[4, 4, 0, 0]}
+            name={t('dashboard.revenue')}
+            maxBarSize={24}
+          />
+          <Bar
+            dataKey="expenses"
+            fill="var(--secondary)"
+            radius={[4, 4, 0, 0]}
+            name={t('dashboard.expenses')}
+            maxBarSize={24}
+            opacity={0.7}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

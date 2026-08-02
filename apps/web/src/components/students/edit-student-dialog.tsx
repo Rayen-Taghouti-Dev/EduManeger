@@ -7,6 +7,7 @@ import { UserPen } from 'lucide-react';
 import { StudentDialogShell } from '@/components/students/student-dialog-shell';
 import { StudentForm } from '@/components/students/student-form';
 import { useUpdateStudentMutation } from '@/lib/students/queries';
+import { useI18n } from '@/providers/locale-provider';
 import { useToast } from '@/providers/toast-provider';
 
 interface EditStudentDialogProps {
@@ -49,6 +50,7 @@ function sanitizePayload(values: StudentFormValues): StudentFormValues {
 
 export function EditStudentDialog({ student, open, onOpenChange }: EditStudentDialogProps) {
   const toast = useToast();
+  const { t } = useI18n();
   const updateMutation = useUpdateStudentMutation(student.id);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -57,10 +59,10 @@ export function EditStudentDialog({ student, open, onOpenChange }: EditStudentDi
 
     try {
       await updateMutation.mutateAsync(sanitizePayload(values));
-      toast.success('Élève mis à jour avec succès.');
+      toast.success(t('students.editSuccess'));
       onOpenChange(false);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Mise à jour impossible';
+      const message = error instanceof Error ? error.message : t('students.editError');
       setErrorMessage(message);
       toast.error(message);
     }
@@ -71,11 +73,11 @@ export function EditStudentDialog({ student, open, onOpenChange }: EditStudentDi
       open={open}
       onOpenChange={onOpenChange}
       icon={UserPen}
-      title="Modifier l'élève"
-      description={`Mettez à jour le profil et les informations de ${student.fullName}.`}
+      title={t('students.editTitle')}
+      description={t('students.editDescription', { name: student.fullName })}
       descriptionId="edit-student-description"
       formId={FORM_ID}
-      submitLabel="Enregistrer"
+      submitLabel={t('students.editSubmit')}
       isSubmitting={updateMutation.isPending}
       onCancel={() => onOpenChange(false)}
       errorMessage={errorMessage}
@@ -116,7 +118,7 @@ export function EditStudentDialog({ student, open, onOpenChange }: EditStudentDi
                   },
                 ],
         }}
-        submitLabel="Enregistrer"
+        submitLabel={t('students.editSubmit')}
         isSubmitting={updateMutation.isPending}
         onSubmit={handleSubmit}
       />

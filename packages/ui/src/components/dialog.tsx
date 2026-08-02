@@ -60,12 +60,12 @@ const DialogContent = React.forwardRef<
       >
         <DialogOverlay className="pointer-events-auto" />
 
-        <div className="pointer-events-none fixed inset-0 z-[var(--z-dialog-overlay)] flex items-center justify-center p-4 sm:p-6">
+        <div className="pointer-events-none fixed inset-0 z-[var(--z-dialog-overlay)] flex items-end justify-center p-0 sm:items-center sm:p-4 md:p-6">
           <DialogPrimitive.Content
             ref={ref}
             className={cn(
-              'bg-surface text-foreground border-border/80 pointer-events-auto relative z-[var(--z-dialog-content)] grid w-full max-w-lg gap-4 rounded-2xl border p-6 shadow-[var(--shadow-lg)] outline-none',
-              'max-h-[min(90vh,calc(100dvh-2rem))] overflow-hidden',
+              'bg-surface text-foreground border-border/80 pointer-events-auto relative z-[var(--z-dialog-content)] grid w-full max-w-lg gap-4 rounded-t-2xl border p-4 shadow-[var(--shadow-lg)] outline-none sm:rounded-2xl sm:p-6',
+              'max-h-[min(92vh,calc(100dvh-0.5rem))] overflow-hidden sm:max-h-[min(90vh,calc(100dvh-2rem))]',
               'data-[state=open]:animate-dialog-content-in data-[state=closed]:animate-dialog-content-out',
               'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
               className,

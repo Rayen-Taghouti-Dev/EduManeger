@@ -10,9 +10,12 @@ import { PerformanceChart } from '@/components/dashboard/performance-chart';
 import { QuickActions } from '@/components/dashboard/quick-actions';
 import { RevenueChart } from '@/components/dashboard/revenue-chart';
 import { UpcomingEvents } from '@/components/dashboard/upcoming-events';
+import { useI18n } from '@/providers/locale-provider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@edumanager/ui';
 
 export default function DashboardPage() {
+  const { t } = useI18n();
+
   return (
     <div className="gradient-mesh mx-auto w-full max-w-[1600px] space-y-6">
       <SchoolOverview />
@@ -22,8 +25,10 @@ export default function DashboardPage() {
       <section className="grid gap-4 lg:grid-cols-12 lg:gap-6">
         <Card className="card-hover overflow-hidden lg:col-span-8">
           <CardHeader className="pb-0">
-            <CardTitle className="text-sm font-semibold leading-none">Tendance des inscriptions</CardTitle>
-            <CardDescription className="text-xs">Total des élèves sur l&apos;année scolaire</CardDescription>
+            <CardTitle className="text-sm font-semibold leading-none">
+              {t('dashboard.enrollmentTitle')}
+            </CardTitle>
+            <CardDescription className="text-xs">{t('dashboard.enrollmentDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="overflow-hidden pt-4">
             <EnrollmentChart />
@@ -38,8 +43,10 @@ export default function DashboardPage() {
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         <Card className="card-hover overflow-hidden">
           <CardHeader className="pb-0">
-            <CardTitle className="text-sm font-semibold leading-none">Présence</CardTitle>
-            <CardDescription className="text-xs">Répartition de cette semaine</CardDescription>
+            <CardTitle className="text-sm font-semibold leading-none">
+              {t('dashboard.attendanceTitle')}
+            </CardTitle>
+            <CardDescription className="text-xs">{t('dashboard.attendanceDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="overflow-hidden pt-4">
             <AttendanceChart />
@@ -48,8 +55,10 @@ export default function DashboardPage() {
 
         <Card className="card-hover overflow-hidden">
           <CardHeader className="pb-0">
-            <CardTitle className="text-sm font-semibold leading-none">Performance</CardTitle>
-            <CardDescription className="text-xs">Notes moyennes par matière</CardDescription>
+            <CardTitle className="text-sm font-semibold leading-none">
+              {t('dashboard.performanceTitle')}
+            </CardTitle>
+            <CardDescription className="text-xs">{t('dashboard.performanceDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="overflow-hidden pt-4">
             <PerformanceChart />
@@ -58,8 +67,10 @@ export default function DashboardPage() {
 
         <Card className="card-hover overflow-hidden sm:col-span-2 lg:col-span-1">
           <CardHeader className="pb-0">
-            <CardTitle className="text-sm font-semibold leading-none">Revenus</CardTitle>
-            <CardDescription className="text-xs">7 derniers mois</CardDescription>
+            <CardTitle className="text-sm font-semibold leading-none">
+              {t('dashboard.revenueTitle')}
+            </CardTitle>
+            <CardDescription className="text-xs">{t('dashboard.revenueDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="overflow-hidden pt-4">
             <RevenueChart />

@@ -10,46 +10,48 @@ import {
   Users,
 } from 'lucide-react';
 
+import type { MessageKey } from '@/i18n';
+
 export interface NavItem {
-  title: string;
+  titleKey: MessageKey;
   href: string;
   icon: LucideIcon;
   badge?: string;
 }
 
 export interface NavGroup {
-  label: string;
+  labelKey: MessageKey;
   items: NavItem[];
 }
 
 export const navGroups: NavGroup[] = [
   {
-    label: 'Académique',
+    labelKey: 'nav.academic',
     items: [
-      { title: 'Tableau de bord', href: '/dashboard', icon: LayoutDashboard },
-      { title: 'Élèves', href: '/students', icon: GraduationCap },
-      { title: 'Enseignants', href: '/teachers', icon: Users },
-      { title: 'Classes', href: '/classes', icon: School },
-      { title: 'Notes', href: '/grades', icon: BookOpen },
+      { titleKey: 'nav.dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { titleKey: 'nav.students', href: '/students', icon: GraduationCap },
+      { titleKey: 'nav.teachers', href: '/teachers', icon: Users },
+      { titleKey: 'nav.classes', href: '/classes', icon: School },
+      { titleKey: 'nav.grades', href: '/grades', icon: BookOpen },
     ],
   },
   {
-    label: 'Gestion',
+    labelKey: 'nav.management',
     items: [
-      { title: 'Finance', href: '/finance', icon: CreditCard },
-      { title: 'Rapports', href: '/reports', icon: BarChart3 },
+      { titleKey: 'nav.finance', href: '/finance', icon: CreditCard },
+      { titleKey: 'nav.reports', href: '/reports', icon: BarChart3 },
     ],
   },
   {
-    label: 'Système',
-    items: [{ title: 'Paramètres', href: '/settings', icon: Settings }],
+    labelKey: 'nav.system',
+    items: [{ titleKey: 'nav.settings', href: '/settings', icon: Settings }],
   },
 ];
 
 export const allNavItems = navGroups.flatMap((g) => g.items);
 
 export const demoSchools = [
-  { id: '1', name: 'Académie Greenwood', plan: 'Entreprise' },
-  { id: '2', name: 'Préparatoire Riverside', plan: 'Professionnel' },
-  { id: '3', name: 'International Oak Hill', plan: 'Débutant' },
+  { id: '1', name: 'Académie Greenwood', planKey: 'landing.planEnterprise' as MessageKey },
+  { id: '2', name: 'Préparatoire Riverside', planKey: 'landing.planPro' as MessageKey },
+  { id: '3', name: 'International Oak Hill', planKey: 'landing.planStarter' as MessageKey },
 ];

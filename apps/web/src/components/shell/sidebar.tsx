@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { ChevronLeft, GraduationCap } from 'lucide-react';
 
 import { navGroups } from '@/config/navigation';
+import { useI18n } from '@/providers/locale-provider';
 import { useShellStore } from '@/stores/shell-store';
 import {
   Badge,
@@ -23,6 +24,7 @@ interface SidebarProps {
 
 export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
   const pathname = usePathname();
+  const { t } = useI18n();
   const { sidebarCollapsed, toggleSidebarCollapsed } = useShellStore();
   const collapsed = !mobile && sidebarCollapsed;
 
@@ -34,7 +36,6 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
           mobile ? 'w-full' : collapsed ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]',
         )}
       >
-        {/* Brand */}
         <div className="border-border flex h-[var(--navbar-height)] shrink-0 items-center border-b px-4">
           <Link
             href="/dashboard"
@@ -58,13 +59,12 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
           </Link>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-4" aria-label="Navigation principale">
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-4" aria-label={t('nav.main')}>
           {navGroups.map((group, groupIndex) => (
-            <div key={group.label} className={cn(groupIndex > 0 && 'mt-6')}>
+            <div key={group.labelKey} className={cn(groupIndex > 0 && 'mt-6')}>
               {!collapsed && (
                 <p className="text-muted-foreground mb-2 px-2 text-[11px] font-semibold tracking-widest uppercase">
-                  {group.label}
+                  {t(group.labelKey)}
                 </p>
               )}
               <ul className="space-y-0.5">
@@ -72,6 +72,7 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
                   const isActive =
                     pathname === item.href || pathname.startsWith(`${item.href}/`);
                   const Icon = item.icon;
+                  const title = t(item.titleKey);
 
                   const link = (
                     <Link
@@ -87,7 +88,7 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
                       <Icon className={cn('h-4 w-4 shrink-0', isActive && 'text-primary')} />
                       {!collapsed && (
                         <>
-                          <span className="min-w-0 flex-1 truncate">{item.title}</span>
+                          <span className="min-w-0 flex-1 truncate">{title}</span>
                           {item.badge && (
                             <Badge variant="secondary" size="sm" className="shrink-0">
                               {item.badge}
@@ -104,7 +105,7 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
                         <Tooltip>
                           <TooltipTrigger asChild>{link}</TooltipTrigger>
                           <TooltipContent side="right" className="text-xs font-medium">
-                            {item.title}
+                            {title}
                           </TooltipContent>
                         </Tooltip>
                       </li>
@@ -118,7 +119,6 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
           ))}
         </nav>
 
-        {/* Footer */}
         {!mobile && (
           <div className="border-border shrink-0 border-t p-2">
             <Button
@@ -129,12 +129,12 @@ export function Sidebar({ mobile = false, onNavigate }: SidebarProps) {
                 'text-muted hover:text-foreground h-10 w-full shrink-0 transition-colors',
                 !collapsed && 'justify-start gap-2 px-2',
               )}
-              aria-label={collapsed ? 'Développer la barre latérale' : 'Réduire la barre latérale'}
+              aria-label={collapsed ? t('nav.expandSidebar') : t('nav.collapseSidebar')}
             >
               <ChevronLeft
                 className={cn('h-4 w-4 shrink-0 transition-transform duration-200', collapsed && 'rotate-180')}
               />
-              {!collapsed && <span className="truncate text-xs">Réduire</span>}
+              {!collapsed && <span className="truncate text-xs">{t('nav.collapse')}</span>}
             </Button>
           </div>
         )}

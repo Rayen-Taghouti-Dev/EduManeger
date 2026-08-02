@@ -2,7 +2,8 @@
 
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
-import { attendanceData } from '@/lib/demo-data';
+import { attendanceSeries } from '@/lib/demo-data';
+import { useI18n } from '@/providers/locale-provider';
 
 const tooltipStyle = {
   background: 'var(--surface-elevated)',
@@ -15,14 +16,15 @@ const tooltipStyle = {
 const COLORS = ['var(--success)', 'var(--danger)'];
 
 export function AttendanceChart() {
-  const totals = attendanceData.reduce(
+  const { t } = useI18n();
+  const totals = attendanceSeries.reduce(
     (acc, d) => ({ present: acc.present + d.present, absent: acc.absent + d.absent }),
     { present: 0, absent: 0 },
   );
 
   const pieData = [
-    { name: 'Présents', value: totals.present },
-    { name: 'Absents', value: totals.absent },
+    { name: t('dashboard.present'), value: totals.present },
+    { name: t('dashboard.absent'), value: totals.absent },
   ];
 
   const rate = Math.round((totals.present / (totals.present + totals.absent)) * 100);
@@ -52,16 +54,16 @@ export function AttendanceChart() {
       <div className="w-24 shrink-0 space-y-3">
         <div>
           <p className="text-foreground text-2xl font-semibold leading-none">{rate}%</p>
-          <p className="text-muted-foreground mt-1 text-[10px]">Moy. hebdo.</p>
+          <p className="text-muted-foreground mt-1 text-[10px]">{t('dashboard.weeklyAvg')}</p>
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <div className="bg-success h-2 w-2 shrink-0 rounded-full" />
-            <span className="text-muted-foreground truncate text-[11px]">Présents</span>
+            <span className="text-muted-foreground truncate text-[11px]">{t('dashboard.present')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="bg-danger h-2 w-2 shrink-0 rounded-full" />
-            <span className="text-muted-foreground truncate text-[11px]">Absents</span>
+            <span className="text-muted-foreground truncate text-[11px]">{t('dashboard.absent')}</span>
           </div>
         </div>
       </div>

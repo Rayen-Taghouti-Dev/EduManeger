@@ -2,6 +2,8 @@
 
 import { Menu } from 'lucide-react';
 
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { useI18n } from '@/providers/locale-provider';
 import { useShellStore } from '@/stores/shell-store';
 import { Button, ThemeSwitcher, cn } from '@edumanager/ui';
 
@@ -15,15 +17,16 @@ const iconBtn =
 
 export function Navbar() {
   const { toggleMobileSidebar } = useShellStore();
+  const { t } = useI18n();
 
   return (
-    <header className="bg-surface/90 border-border sticky top-0 z-[var(--z-navbar)] flex h-[var(--navbar-height)] shrink-0 items-center gap-2 border-b px-4 backdrop-blur-md lg:gap-3">
+    <header className="bg-surface/90 border-border sticky top-0 z-[var(--z-navbar)] flex h-[var(--navbar-height)] shrink-0 items-center gap-1.5 border-b px-3 backdrop-blur-md sm:gap-2 sm:px-4 lg:gap-3">
       <Button
         variant="ghost"
         size="icon"
         className={cn(iconBtn, 'lg:hidden')}
         onClick={toggleMobileSidebar}
-        aria-label="Ouvrir le menu de navigation"
+        aria-label={t('nav.openMenu')}
       >
         <Menu className="h-4 w-4" />
       </Button>
@@ -34,11 +37,12 @@ export function Navbar() {
         <CommandMenu />
       </div>
 
-      <div className="ml-auto flex shrink-0 items-center gap-2">
+      <div className="ml-auto flex min-w-0 shrink-0 items-center gap-1 sm:gap-2">
         <div className="flex items-center lg:hidden">
           <CommandMenu compact />
         </div>
         <NotificationsMenu className={iconBtn} />
+        <LanguageSwitcher compact className={iconBtn} />
         <ThemeSwitcher className={iconBtn} />
         <UserMenu />
       </div>

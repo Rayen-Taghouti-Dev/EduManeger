@@ -4,6 +4,7 @@ import type { StudentListItem } from '@edumanager/types';
 import { AlertTriangle } from 'lucide-react';
 
 import { useDeleteStudentMutation } from '@/lib/students/queries';
+import { useI18n } from '@/providers/locale-provider';
 import { useToast } from '@/providers/toast-provider';
 import {
   Button,
@@ -29,6 +30,7 @@ export function DeleteStudentDialog({
   onDeleted,
 }: DeleteStudentDialogProps) {
   const toast = useToast();
+  const { t } = useI18n();
   const deleteMutation = useDeleteStudentMutation();
 
   const handleDelete = async () => {
@@ -38,37 +40,44 @@ export function DeleteStudentDialog({
 
     try {
       await deleteMutation.mutateAsync(student.id);
-      toast.success(`${student.fullName} a été supprimé.`);
+      toast.success(t('students.deleteSuccess'));
       onOpenChange(false);
       onDeleted?.();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Suppression impossible');
+      toast.error(error instanceof Error ? error.message : t('students.deleteError'));
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md gap-0 overflow-hidden p-0" aria-describedby="delete-student-description">
+      <DialogContent
+        className="max-w-md gap-0 overflow-hidden p-0"
+        aria-describedby="delete-student-description"
+      >
         <DialogHeader className="border-border border-b px-6 py-5 text-left">
           <div className="flex items-start gap-3">
             <div className="bg-danger-light text-danger flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
               <AlertTriangle className="h-5 w-5" aria-hidden="true" />
             </div>
             <div className="space-y-1.5">
-              <DialogTitle>Supprimer l&apos;élève</DialogTitle>
+              <DialogTitle>{t('students.deleteTitle')}</DialogTitle>
               <DialogDescription id="delete-student-description">
-                Cette action archive l&apos;élève <strong>{student?.fullName}</strong>. Les données
-                restent conservées pour l&apos;historique.
+                {t('students.deleteDescription', { name: student?.fullName ?? '' })}
               </DialogDescription>
             </div>
           </div>
         </DialogHeader>
         <DialogFooter className="px-6 py-4">
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-            Annuler
+            {t('common.cancel')}
           </Button>
-          <Button type="button" variant="danger" disabled={deleteMutation.isPending} onClick={handleDelete}>
-            {deleteMutation.isPending ? 'Suppression...' : 'Supprimer'}
+          <Button
+            type="button"
+            variant="danger"
+            disabled={deleteMutation.isPending}
+            onClick={handleDelete}
+          >
+            {deleteMutation.isPending ? t('common.loading') : t('students.deleteConfirm')}
           </Button>
         </DialogFooter>
       </DialogContent>

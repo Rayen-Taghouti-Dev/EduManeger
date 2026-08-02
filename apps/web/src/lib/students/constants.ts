@@ -1,50 +1,52 @@
 import type { Gender, ParentRelationship, StudentStatus } from '@edumanager/types';
 
-export const STUDENT_STATUS_LABELS: Record<StudentStatus, string> = {
-  ACTIVE: 'Actif',
-  INACTIVE: 'Inactif',
-  GRADUATED: 'Diplômé',
-  TRANSFERRED: 'Transféré',
-  WITHDRAWN: 'Retiré',
+import type { MessageKey } from '@/i18n';
+
+export const STUDENT_STATUS_KEYS: Record<StudentStatus, MessageKey> = {
+  ACTIVE: 'students.statusActive',
+  INACTIVE: 'students.statusInactive',
+  GRADUATED: 'students.statusGraduated',
+  TRANSFERRED: 'students.statusTransferred',
+  WITHDRAWN: 'students.statusWithdrawn',
 };
 
-export const GENDER_LABELS: Record<Gender, string> = {
-  MALE: 'Masculin',
-  FEMALE: 'Féminin',
-  OTHER: 'Autre',
-  PREFER_NOT_TO_SAY: 'Non précisé',
+export const GENDER_KEYS: Record<Gender, MessageKey> = {
+  MALE: 'students.genderMale',
+  FEMALE: 'students.genderFemale',
+  OTHER: 'students.genderOther',
+  PREFER_NOT_TO_SAY: 'students.genderUnspecified',
 };
 
-export const PARENT_RELATIONSHIP_LABELS: Record<ParentRelationship, string> = {
-  FATHER: 'Père',
-  MOTHER: 'Mère',
-  GUARDIAN: 'Tuteur',
-  OTHER: 'Autre',
+export const PARENT_RELATIONSHIP_KEYS: Record<ParentRelationship, MessageKey> = {
+  FATHER: 'students.relFather',
+  MOTHER: 'students.relMother',
+  GUARDIAN: 'students.relGuardian',
+  OTHER: 'students.relOther',
 };
 
-export const STUDENT_STATUS_OPTIONS = Object.entries(STUDENT_STATUS_LABELS).map(([value, label]) => ({
-  value: value as StudentStatus,
-  label,
-}));
-
-export const GENDER_OPTIONS = Object.entries(GENDER_LABELS).map(([value, label]) => ({
-  value: value as Gender,
-  label,
-}));
-
-export const PARENT_RELATIONSHIP_OPTIONS = Object.entries(PARENT_RELATIONSHIP_LABELS).map(
-  ([value, label]) => ({
-    value: value as ParentRelationship,
-    label,
-  }),
+export const STUDENT_STATUS_OPTIONS = (Object.keys(STUDENT_STATUS_KEYS) as StudentStatus[]).map(
+  (value) => ({ value, labelKey: STUDENT_STATUS_KEYS[value] }),
 );
 
-export function formatDate(value: string | null | undefined) {
+export const GENDER_OPTIONS = (Object.keys(GENDER_KEYS) as Gender[]).map((value) => ({
+  value,
+  labelKey: GENDER_KEYS[value],
+}));
+
+export const PARENT_RELATIONSHIP_OPTIONS = (
+  Object.keys(PARENT_RELATIONSHIP_KEYS) as ParentRelationship[]
+).map((value) => ({
+  value,
+  labelKey: PARENT_RELATIONSHIP_KEYS[value],
+}));
+
+/** @deprecated Prefer formatDate with locale from useI18n */
+export function formatDate(value: string | null | undefined, locale = 'fr-FR') {
   if (!value) {
     return '—';
   }
 
-  return new Intl.DateTimeFormat('fr-FR', {
+  return new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',

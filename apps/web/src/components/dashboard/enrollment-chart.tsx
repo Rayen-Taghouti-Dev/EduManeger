@@ -10,7 +10,8 @@ import {
   YAxis,
 } from 'recharts';
 
-import { enrollmentData } from '@/lib/demo-data';
+import { enrollmentSeries } from '@/lib/demo-data';
+import { useI18n } from '@/providers/locale-provider';
 
 const tooltipStyle = {
   background: 'var(--surface-elevated)',
@@ -21,10 +22,17 @@ const tooltipStyle = {
 };
 
 export function EnrollmentChart() {
+  const { t } = useI18n();
+  const data = enrollmentSeries.map((row) => ({
+    month: t(row.monthKey),
+    students: row.students,
+    newEnrollments: row.newEnrollments,
+  }));
+
   return (
     <div className="chart-container">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={enrollmentData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
+        <AreaChart data={data} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
           <defs>
             <linearGradient id="enrollmentGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.2} />
@@ -52,7 +60,7 @@ export function EnrollmentChart() {
             stroke="var(--primary)"
             strokeWidth={2}
             fill="url(#enrollmentGrad)"
-            name="Élèves"
+            name={t('dashboard.students')}
           />
         </AreaChart>
       </ResponsiveContainer>

@@ -2,21 +2,26 @@
 
 import { CreditCard, GraduationCap, School, UserPlus } from 'lucide-react';
 
+import { useI18n } from '@/providers/locale-provider';
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@edumanager/ui';
 
-const actions = [
-  { label: 'Ajouter un élève', icon: GraduationCap, variant: 'default' as const },
-  { label: 'Ajouter un enseignant', icon: UserPlus, variant: 'outline' as const },
-  { label: 'Créer une classe', icon: School, variant: 'outline' as const },
-  { label: 'Enregistrer un paiement', icon: CreditCard, variant: 'outline' as const },
-];
-
 export function QuickActions() {
+  const { t } = useI18n();
+
+  const actions = [
+    { label: t('dashboard.actionAddStudent'), icon: GraduationCap, variant: 'default' as const },
+    { label: t('dashboard.actionAddTeacher'), icon: UserPlus, variant: 'outline' as const },
+    { label: t('dashboard.actionCreateClass'), icon: School, variant: 'outline' as const },
+    { label: t('dashboard.actionRecordPayment'), icon: CreditCard, variant: 'outline' as const },
+  ];
+
   return (
     <Card className="card-hover flex h-full flex-col">
       <CardHeader className="shrink-0 pb-0">
-        <CardTitle className="text-sm font-semibold leading-none">Actions rapides</CardTitle>
-        <CardDescription className="text-xs">Tâches courantes</CardDescription>
+        <CardTitle className="text-sm font-semibold leading-none">
+          {t('dashboard.quickActionsTitle')}
+        </CardTitle>
+        <CardDescription className="text-xs">{t('dashboard.quickActionsDesc')}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pt-4">
         <div className="flex flex-col gap-2">

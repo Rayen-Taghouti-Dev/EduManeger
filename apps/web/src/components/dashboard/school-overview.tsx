@@ -3,9 +3,11 @@
 import { Calendar, CheckCircle2, Users } from 'lucide-react';
 
 import { schoolOverview } from '@/lib/demo-data';
+import { useI18n } from '@/providers/locale-provider';
 import { Badge, cn } from '@edumanager/ui';
 
 export function SchoolOverview() {
+  const { t } = useI18n();
   const capacityPercent = Math.round(
     (schoolOverview.studentsEnrolled / schoolOverview.capacity) * 100,
   );
@@ -19,15 +21,13 @@ export function SchoolOverview() {
               {schoolOverview.name}
             </Badge>
             <Badge variant="outline" size="sm" className="shrink-0">
-              {schoolOverview.term}
+              {t('dashboard.term')}
             </Badge>
           </div>
           <h1 className="text-foreground truncate text-xl font-semibold leading-tight tracking-tight sm:text-2xl">
-            Bonjour Alex
+            {t('dashboard.greeting')}
           </h1>
-          <p className="text-muted mt-2 text-sm leading-relaxed">
-            Voici l&apos;aperçu de votre établissement pour aujourd&apos;hui.
-          </p>
+          <p className="text-muted mt-2 text-sm leading-relaxed">{t('dashboard.overviewSubtitle')}</p>
         </div>
 
         <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -41,30 +41,28 @@ export function SchoolOverview() {
           >
             <CheckCircle2 className="text-success h-4 w-4 shrink-0" />
             <span className="text-foreground truncate text-xs font-medium leading-none sm:text-sm">
-              {schoolOverview.statusLabel}
+              {t('dashboard.statusOk')}
             </span>
           </div>
 
-          <div className="flex h-10 items-center gap-2 rounded-md border border-border bg-background-subtle px-3">
+          <div className="bg-background-subtle border-border flex h-10 items-center gap-2 rounded-md border px-3">
             <Users className="text-muted h-4 w-4 shrink-0" />
             <div className="min-w-0">
-              <p className="text-foreground text-sm font-semibold leading-none">
-                {capacityPercent} %
-              </p>
+              <p className="text-foreground text-sm leading-none font-semibold">{capacityPercent} %</p>
               <p className="text-muted-foreground mt-0.5 truncate text-[10px] leading-none">
-                Capacité
+                {t('dashboard.capacity')}
               </p>
             </div>
           </div>
 
-          <div className="flex h-10 items-center gap-2 rounded-md border border-border bg-background-subtle px-3">
+          <div className="bg-background-subtle border-border flex h-10 items-center gap-2 rounded-md border px-3">
             <Calendar className="text-muted h-4 w-4 shrink-0" />
             <div className="min-w-0">
-              <p className="text-foreground text-sm font-semibold leading-none">
+              <p className="text-foreground text-sm leading-none font-semibold">
                 {schoolOverview.daysRemaining}
               </p>
               <p className="text-muted-foreground mt-0.5 truncate text-[10px] leading-none">
-                Jours restants
+                {t('dashboard.daysLeft')}
               </p>
             </div>
           </div>
